@@ -39,6 +39,23 @@ El entorno de la maquina virtual utilizadsa esta compeusta por los siguientes se
 
   Comando utilizado para lebantar los contenedores.
 
+  ### Errores encontrados y Soluciones aplicadas.
+
+  - **Descripcion**: Algunos ccontnedores no iniciaban devidamente a problemas con los bolumenes y las ip.
+  - **Solucion**: Se detuvieron los volumenes y se reinicio el cluster.
+
+  ```
+  docker-compose down -v
+  ```
+
+  Comando utilizado para detener y elimiar los clusters
+
+  ```
+  docker-compose up -d
+  ```
+
+  Comando utilizado para levantar nuevamnete los clusters.
+
   
 
 ![Levantaminedo de docker compose](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20desde%202025-04-02%2021-28-34.png)
