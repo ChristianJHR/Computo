@@ -6,6 +6,41 @@ En este reporte se documenta la implementacion, configuracion y pruebas de carga
 utiliza HAProxy como balanceador de carga y multiples instancias de Wordpress con una base de MariaDb Galera Cluster,
 todo ejeccutado dentro de una maquina virtual con el sistema operativo de Ubuntu Desktop 24.04.
 
+## Configuracion del Entorno
+
+El entorno de la maquina virtual utilizadsa esta compeusta por los siguientes seervicioos:
+
+- HAProxy ( **master** ): Es el balanceador de carga para distribuir el trafico entre los servidores web.
+
+- Servidores Web ( **webnode1, webnode2, webnode3** ): Instancias de Wordpress corrinedo en contenedores Docker.
+
+- Base de Datos ( **dbnode1, dbnode2, dbnode3** ): Cluster de bases de datos MariaDB Galera para peplicacion y alta disponibilidad.
+
+    ### Archivos de Configuracion ###
+
+  El despliege del entonrno se realiza mediante **docker-compose.yml**, que contiene lass definiciones de los servicios. S e han realizado modificaciones en los archivos de configuracion para garantizar la conectividad y balanceo de carga.
+
+## Despliege del Entorno con Docker Compose
+
+  ### Ejecucion de Comandos
+
+  Para iniciar los contenedores, se ejecuto el siguiente comando en la terminal de Ubuntu:
+
+  ```
+  cd haproxylb
+  cd containerized
+  ```
+
+  Estos comnados fueron utilizados para ingresar a las carpetas necesarias.
+
+  ```
+  docker-compose up -d
+  ```
+
+  Comando utilizado para lebantar los contenedores.
+
+  
+
 ![Levantaminedo de docker compose](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20desde%202025-04-02%2021-28-34.png)
 
 ![Visualizacion del volumen y los contenedores creados](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20desde%202025-04-02%2021-32-30.png?raw=true)
