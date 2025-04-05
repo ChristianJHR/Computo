@@ -34,6 +34,16 @@ El entorno de la maquina virtual utilizadsa esta compeusta por los siguientes se
   Estos comnados fueron utilizados para ingresar a las carpetas necesarias.
 
   ```
+  docker images
+  ```
+
+  Comando utilizado para ver las imagenes creadas.
+
+  ### Visualizacion de las iamgenes creadas.
+  
+  ![Imagen creada](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20desde%202025-04-04%2017-26-29.png?raw=true)
+
+  ```
   docker-compose up -d
   ```
 
@@ -172,6 +182,10 @@ ab -n 3000 -c 100 -t 300 http://localhost:8083/
 ### Grafica de tiempos de distribucion ab.
 
 ![Grafica de tiempos de distribucion de ab](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-04-02%20234559.png?raw=true)
+
+## Diagrama de Arquitectura
+
+![Diagrama de arquitectura](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-04-04%20200112.png?raw=true)
 
 ## Conclusion
 
