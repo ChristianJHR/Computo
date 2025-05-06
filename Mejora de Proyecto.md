@@ -1,4 +1,22 @@
-usuario@usuario-VirtualBox:~/haproxylb/containerized$ ab -n 3000 -c 100 -t 300 http://localhost:8083/
+
+usuario@usuario-VirtualBox:~/haproxylb/containerized$ siege -c 100 -i -b -v -t 5m http://localhost:8083
+
+{	"transactions":			      874784,
+	"availability":			      100.00,
+	"elapsed_time":			      299.53,
+	"data_transferred":		      513.07,
+	"response_time":		        0.03,
+	"transaction_rate":		     2920.52,
+	"throughput":			        1.71,
+	"concurrency":			       98.73,
+	"successful_transactions":	      874784,
+	"failed_transactions":		           0,
+	"longest_transaction":		        1.49,
+	"shortest_transaction":		        0.00
+}
+
+
+ab -c 100 -t 300 http://localhost:8083/
 This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -25,30 +43,30 @@ Document Path:          /
 Document Length:        615 bytes
 
 Concurrency Level:      100
-Time taken for tests:   6.197 seconds
+Time taken for tests:   6.474 seconds
 Complete requests:      50000
 Failed requests:        0
 Total transferred:      42400000 bytes
 HTML transferred:       30750000 bytes
-Requests per second:    8068.52 [#/sec] (mean)
-Time per request:       12.394 [ms] (mean)
-Time per request:       0.124 [ms] (mean, across all concurrent requests)
-Transfer rate:          6681.75 [Kbytes/sec] received
+Requests per second:    7723.61 [#/sec] (mean)
+Time per request:       12.947 [ms] (mean)
+Time per request:       0.129 [ms] (mean, across all concurrent requests)
+Transfer rate:          6396.12 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    1   1.1      0      16
-Processing:     2   12   4.9     11      38
-Waiting:        0   11   4.5     11      35
-Total:          2   12   4.9     11      38
+Connect:        0    1   1.2      0      18
+Processing:     2   12   5.4     11      72
+Waiting:        0   12   5.0     11      47
+Total:          2   13   5.5     12      73
 
 Percentage of the requests served within a certain time (ms)
-  50%     11
-  66%     13
+  50%     12
+  66%     14
   75%     15
-  80%     16
-  90%     19
-  95%     22
-  98%     26
-  99%     29
- 100%     38 (longest request)
+  80%     17
+  90%     20
+  95%     23
+  98%     27
+  99%     31
+ 100%     73 (longest request)
