@@ -194,21 +194,21 @@ ab -n 3000 -c 100 -t 300 http://localhost:8083/
 
 ## Graficas de los resultados de las pruebas realizadas.
 
-### Grafica de resultado de **Siage** con 33785 transacciones y transaccciones exitosas.
+### Grafica de resultado de **Siage** con 874784 transacciones y transaccciones exitosas.
 
-![Grafica del resultado del siage con 33785 transacciones y transacciones exitosas](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-04-02%20231923.png?raw=true)
+![Grafica del resultado del siage con 33785 transacciones y transacciones exitosas](https://github.com/user-attachments/assets/afe075f2-cad8-484e-8641-982c4c54151b)
 
-### Grafica de resultado de **ab** con 7908 peticioness completaadas. 
+### Grafica de resultado de **ab** con 50000 peticioness completaadas. 
 
-![Grafica de datos del resultado de ab con 7908 peticiones completas](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-04-02%20233532.png?raw=true)
+![Grafica de datos del resultado de ab con 7908 peticiones completas](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-05-07%20122411.png?raw=true)
 
 ### Grafica de tiempos de conexion ab.
 
-![Gracfica de tiempos de conexion ab](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-04-02%20234255.png?raw=true)
+![Gracfica de tiempos de conexion ab](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-05-07%20123004.png?raw=true)
 
 ### Grafica de tiempos de distribucion ab.
 
-![Grafica de tiempos de distribucion de ab](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-04-02%20234559.png?raw=true)
+![Grafica de tiempos de distribucion de ab](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-05-07%20124007.png?raw=true)
 
 ## Diagrama de Arquitectura
 
@@ -216,78 +216,7 @@ ab -n 3000 -c 100 -t 300 http://localhost:8083/
 
 ## Conclusion
 
-La implementacion de HAProxy y MariaDB Galera en Docker demostro ser efectiva para balancear carga  y garantizar alta disponibilidad, Se resolvieron problemas de configuracion y conectividad, las prubas de carga validaron la capacidad del sistemaa para manejar multiples usuarios concurrentes.
+La refactorización de la arquitectura mediante la integración de dos balanceadores HAProxy proporciona una solución altamente disponible, escalable y resiliente para entornos de producción o pruebas avanzadas. El uso de HAProxy tanto en la capa web como en la base de datos permite una distribución eficiente del tráfico, mejora el rendimiento del sistema y asegura la continuidad del servicio ante fallas parciales.
 
+Esta implementación también facilita futuras mejoras como monitoreo, uso de certificados SSL, autenticación y failover automático.
 
-
-usuario@usuario-VirtualBox:~/haproxylb/containerized$ siege -c 100 -i -b -v -t 5m http://localhost:8083
-
-{	"transactions":			      874784,
-	"availability":			      100.00,
-	"elapsed_time":			      299.53,
-	"data_transferred":		      513.07,
-	"response_time":		        0.03,
-	"transaction_rate":		     2920.52,
-	"throughput":			        1.71,
-	"concurrency":			       98.73,
-	"successful_transactions":	      874784,
-	"failed_transactions":		           0,
-	"longest_transaction":		        1.49,
-	"shortest_transaction":		        0.00
-}
-
-
-ab -c 100 -t 300 http://localhost:8083/
-This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
-Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-Licensed to The Apache Software Foundation, http://www.apache.org/
-
-Benchmarking localhost (be patient)
-Completed 5000 requests
-Completed 10000 requests
-Completed 15000 requests
-Completed 20000 requests
-Completed 25000 requests
-Completed 30000 requests
-Completed 35000 requests
-Completed 40000 requests
-Completed 45000 requests
-Completed 50000 requests
-Finished 50000 requests
-
-
-Server Software:        nginx/1.27.5
-Server Hostname:        localhost
-Server Port:            8083
-
-Document Path:          /
-Document Length:        615 bytes
-
-Concurrency Level:      100
-Time taken for tests:   6.474 seconds
-Complete requests:      50000
-Failed requests:        0
-Total transferred:      42400000 bytes
-HTML transferred:       30750000 bytes
-Requests per second:    7723.61 [#/sec] (mean)
-Time per request:       12.947 [ms] (mean)
-Time per request:       0.129 [ms] (mean, across all concurrent requests)
-Transfer rate:          6396.12 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    1   1.2      0      18
-Processing:     2   12   5.4     11      72
-Waiting:        0   12   5.0     11      47
-Total:          2   13   5.5     12      73
-
-Percentage of the requests served within a certain time (ms)
-  50%     12
-  66%     14
-  75%     15
-  80%     17
-  90%     20
-  95%     23
-  98%     27
-  99%     31
- 100%     73 (longest request)
