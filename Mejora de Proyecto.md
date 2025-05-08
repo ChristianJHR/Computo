@@ -216,7 +216,6 @@ ab -n 3000 -c 100 -t 300 http://localhost:8083/
 
 ## Conclusion
 
-La refactorización de la arquitectura mediante la integración de dos balanceadores HAProxy proporciona una solución altamente disponible, escalable y resiliente para entornos de producción o pruebas avanzadas. El uso de HAProxy tanto en la capa web como en la base de datos permite una distribución eficiente del tráfico, mejora el rendimiento del sistema y asegura la continuidad del servicio ante fallas parciales.
+La refactorización de la arquitectura con la integración de dos balanceadores HAProxy ofrece una solución robusta, altamente disponible y escalable para entornos de producción o pruebas avanzadas. Al utilizar HAProxy tanto en la capa web como en la base de datos, se logra una distribución eficiente del tráfico, mejorando el rendimiento general del sistema y asegurando su continuidad incluso ante fallas parciales o caídas de nodos.
 
-Esta implementación también facilita futuras mejoras como monitoreo, uso de certificados SSL, autenticación y failover automático.
-
+Además de mejorar la tolerancia a fallos, esta configuración permite una gestión más flexible y facilita futuras mejoras como la implementación de certificados SSL para comunicaciones seguras, autenticación de usuarios, monitoreo en tiempo real y mecanismos automáticos de failover. En conjunto, esta arquitectura mejora tanto la estabilidad como la capacidad de crecimiento del sistema.
