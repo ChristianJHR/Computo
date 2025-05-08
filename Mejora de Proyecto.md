@@ -214,6 +214,10 @@ ab -n 3000 -c 100 -t 300 http://localhost:8083/
 
 ![Diagrama de arquitectura](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-04-04%20200112.png?raw=true)
 
+## Diagrama de Arquitectura Mejorado
+
+![image](https://github.com/ChristianJHR/Computo/blob/main/Capturas%20de%20pantalla/Captura%20de%20pantalla%202025-05-08%20012704.png?raw=true)
+
 ## Conclusion
 
 La refactorización de la arquitectura con la integración de dos balanceadores HAProxy ofrece una solución robusta, altamente disponible y escalable para entornos de producción o pruebas avanzadas. Al utilizar HAProxy tanto en la capa web como en la base de datos, se logra una distribución eficiente del tráfico, mejorando el rendimiento general del sistema y asegurando su continuidad incluso ante fallas parciales o caídas de nodos.
