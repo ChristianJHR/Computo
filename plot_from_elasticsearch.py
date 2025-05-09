@@ -2,20 +2,39 @@ from elasticsearch import Elasticsearch
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Conectar a Elasticsearch
 es = Elasticsearch("http://localhost:9200")
-query = {"query": {"match_all": {}}}
-results = es.search(index="digimon", size=150, body=query)
 
-data = [doc["_source"] for doc in results["hits"]["hits"]]
+# Obtener datos del índice "digimon"
+results = es.search(index="digimon", size=1000, query={"match_all": {}})
+data = [hit["_source"] for hit in results["hits"]["hits"]]
+
+# Crear DataFrame
 df = pd.DataFrame(data)
-print(df.columns)
-df["Lv50_HP"] = pd.to_numeric(df["Lv50_HP"], errors="coerce")
-df["Lv50_Atk"] = pd.to_numeric(df["Lv50_Atk"], errors="coerce")
 
-plt.figure(figsize=(8,6))
-plt.scatter(df["Lv50_HP"], df["Lv50_Atk"], alpha=0.7)
-plt.xlabel("HP at Level 50")
-plt.ylabel("Attack at Level 50")
-plt.title("Digimon: HP vs Attack at Level 50")
-plt.grid(True)
-plt.savefig("docs/digimon_plot.png")
+# Asegurar que las columnas necesarias existan
+if "Lv50_HP" in df.columns and "Digimon" in df.columns:
+    # Convertir a numérico por si hay errores o valores vacíos
+    df["Lv50_HP"] = pd.to_numeric(df["Lv50_HP"], errors="coerce")
+
+    # Eliminar filas sin datos válidos
+    df = df.dropna(subset=["Lv50_HP", "Digimon"])
+
+    # Ordenar por HP para mejor visualización
+    df = df.sort_values("Lv50_HP", ascending=False).head(20)
+
+    # Gráfica de barras
+    plt.figure(figsize=(12, 8))
+    plt.bar(df["Digimon"], df["Lv50_HP"], color='royalblue')
+    plt.xticks(rotation=75, ha='right')
+    plt.title("Top 20 Digimon por HP al Nivel 50")
+    plt.xlabel("Digimon")
+    plt.ylabel("Lv50_HP")
+    plt.tight_layout()
+
+    # Guardar imagen
+    plt.savefig("docs/digimon_plot.png")
+    plt.close()
+    print("Gráfica guardada como docs/digimon_plot.png")
+else:
+    print("Las columnas necesarias no se encontraron en los datos.")
