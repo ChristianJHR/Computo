@@ -1,0 +1,144 @@
+version: '3.7'
+
+services:
+  dbnode1:
+    image: bitnami/mariadb-galera:latest
+    container_name: dbnode1
+    environment:
+      - MARIADB_ROOT_PASSWORD=rootpassword
+      - MARIADB_GALERA_CLUSTER_NAME=galera-cluster
+      - MARIADB_GALERA_NODE_NAME=node1
+      - MARIADB_GALERA_NODE_ADDRESS=dbnode1
+      - MARIADB_GALERA_CLUSTER_ADDRESS=gcomm://
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD=mariabackuppassword
+      - MARIADB_EXTRA_FLAGS=--wsrep-new-cluster
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data_node1:/bitnami/mariadb
+    networks:
+      - galera_net
+    restart: always
+
+  dbnode2:
+    image: bitnami/mariadb-galera:latest
+    container_name: dbnode2
+    environment:
+      - MARIADB_ROOT_PASSWORD=rootpassword
+      - MARIADB_GALERA_CLUSTER_NAME=galera-cluster
+      - MARIADB_GALERA_NODE_NAME=node2
+      - MARIADB_GALERA_NODE_ADDRESS=dbnode2
+      - MARIADB_GALERA_CLUSTER_ADDRESS=gcomm://dbnode1
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD=mariabackuppassword
+    ports:
+      - "3308:3306"
+    volumes:
+      - mariadb_data_node2:/bitnami/mariadb
+    networks:
+      - galera_net
+    depends_on:
+      - dbnode1
+    restart: always
+
+  dbnode3:
+    image: bitnami/mariadb-galera:latest
+    container_name: dbnode3
+    environment:
+      - MARIADB_ROOT_PASSWORD=rootpassword
+      - MARIADB_GALERA_CLUSTER_NAME=galera-cluster
+      - MARIADB_GALERA_NODE_NAME=node3
+      - MARIADB_GALERA_NODE_ADDRESS=dbnode3
+      - MARIADB_GALERA_CLUSTER_ADDRESS=gcomm://dbnode1
+      - MARIADB_GALERA_MARIABACKUP_PASSWORD=mariabackuppassword
+    ports:
+      - "3309:3306"
+    volumes:
+      - mariadb_data_node3:/bitnami/mariadb
+    networks:
+      - galera_net
+    depends_on:
+      - dbnode1
+    restart: always
+
+  webnode1:
+    image: nginx:latest
+    container_name: webnode1
+    networks:
+      - galera_net
+    ports:
+      - "8081:80"
+    restart: always
+
+  webnode2:
+    image: nginx:latest
+    container_name: webnode2
+    networks:
+      - galera_net
+    ports:
+      - "8082:80"
+    restart: always
+
+  webnode3:
+    image: nginx:latest
+    container_name: webnode3
+    networks:
+      - galera_net
+    ports:
+      - "8083:80"
+    restart: always
+
+  haproxy-web:
+    image: haproxy:latest
+    container_name: haproxy-web
+    ports:
+      - "80:80"
+    volumes:
+      - ./haproxy-web.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    restart: always
+    networks:
+      - galera_net
+
+  haproxy-db:
+    image: haproxy:latest
+    container_name: haproxy-db
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./haproxy-db.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    restart: always
+    networks:
+      - galera_net
+
+volumes:
+  mariadb_data_node1:
+  mariadb_data_node2:
+  mariadb_data_node3:
+
+networks:
+  galera_net:
+    driver: bridge
+
+frontend http-in
+    bind *:80
+    default_backend servers
+
+backend servers
+    balance roundrobin
+    server web1 webnode1:80 check
+    server web2 webnode2:80 check
+    server web3 webnode3:80 check
+
+
+frontend mysql-in
+    bind *:3307
+    default_backend mysql-servers
+
+backend mysql-servers
+    balance roundrobin
+    server db1 dbnode1:3306 check
+    server db2 dbnode2:3306 check
+    server db3 dbnode3:3306 check
+
+[mysqld]
+wsrep_cluster_name    = "galera-cluster"
+wsrep_node_name       = "node2"
